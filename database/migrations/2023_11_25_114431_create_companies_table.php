@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if(!Schema::hasTable('users')){
-            Schema::create('users', function (Blueprint $table) {
+        if(!Schema::hasTable('companies')){
+            Schema::create('companies', function (Blueprint $table) {
                 $table->id();
-                $table->string('user_id')->unique()->index()->comment('User ID from API');
-                $table->string('first_name');
-                $table->string('last_name');
-                $table->string('email')->unique();
+                $table->string('company_id')->unique()->index()->comment('Company ID from API');
+                $table->string('name');
+                $table->string('address');
                 $table->timestamps();
             });
         }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('companies');
     }
 };
