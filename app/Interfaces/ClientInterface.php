@@ -12,13 +12,6 @@ interface ClientInterface
     public function setApiUrl(string $apiUrl): void;
 
     /**
-     * X-Client header variable setter
-     *
-     * @param string $xClientHeader
-     */
-    public function setXClientHeader(string $xClientHeader): void;
-
-    /**
      * API communication client setter
      *
      * @return void

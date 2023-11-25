@@ -14,13 +14,6 @@ class Client implements ClientInterface
     protected string $apiUrl = 'http://server:3000';
 
     /**
-     * Necessary header for API requests
-     *
-     * @var string
-     */
-    protected string $xClientHeader = '237cd6a8-5a0e-4ff0-b7e2-0bf34675d058';
-
-    /**
      * Client for API communication
      *
      * @var \GuzzleHttp\Client
@@ -171,17 +164,9 @@ class Client implements ClientInterface
         $this->client = new \GuzzleHttp\Client([
             'http_errors' => false,
             'headers' => [
-                'X-Client' => $this->xClientHeader
+                'X-Client' => config('app.api.x-client')
             ]
         ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setXClientHeader(string $xClientHeader): void
-    {
-        $this->xClientHeader = $xClientHeader;
     }
 
     /**

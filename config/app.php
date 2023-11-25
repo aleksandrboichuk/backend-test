@@ -185,4 +185,7 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'api' => [
+        'x-client' => env('X_CLIENT_HEADER')
+     ]
 ];
