@@ -45,7 +45,7 @@ class StoreDataFromApi extends Command
                     'email' => "Email",
                 ]);
 
-                User::query()->insert($insertArray);
+                User::query()->upsert($insertArray, ['user_id']);
 
                 break;
 
@@ -68,7 +68,7 @@ class StoreDataFromApi extends Command
                     $this->info("\nCompanies positions imported successfully");
                 }
 
-                Company::query()->insert($insertArray);
+                Company::query()->upsert($insertArray, ['company_id']);
 
                 break;
 
@@ -96,7 +96,13 @@ class StoreDataFromApi extends Command
                 'position' => "Position",
             ]);
 
-            CompanyPositions::query()->insert($companiesPositionsInsertArray);
+            foreach ($companiesPositionsInsertArray as $position) {
+                // prevention mysql unique errors
+                CompanyPositions::query()->updateOrCreate(
+                    $position,
+                    ['company_id' => $position['company_id'], 'user_id' => $position['user_id']]
+                );
+            }
         }
     }
 

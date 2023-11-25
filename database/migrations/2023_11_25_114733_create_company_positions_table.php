@@ -17,6 +17,7 @@ return new class extends Migration
                 $table->string('company_id')->index()->references('company_id')->on('companies');
                 $table->string('user_id')->index()->references('user_id')->on('users');
                 $table->string('position');
+                $table->timestamps();
             });
         }
     }
