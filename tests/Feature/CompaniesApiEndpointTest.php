@@ -7,12 +7,23 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
+use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class CompaniesApiEndpointTest extends TestCase
 {
+    /**
+     * Testing endpoint
+     *
+     * @var string
+     */
     protected string $endpoint = "/api/companies";
 
+    /**
+     * Success endpoint response structure with data
+     *
+     * @var array|array[]
+     */
     protected array $responseStructure = [
         'companies' => [
             'data' => [
@@ -53,6 +64,29 @@ class CompaniesApiEndpointTest extends TestCase
     ];
 
     /**
+     * Base Success endpoint response structure
+     *
+     * @var array|array[]
+     */
+    protected array $baseResponseStructure = [
+        'companies' => [
+            'data',
+            'first_page_url',
+            'from',
+            'last_page',
+            'last_page_url',
+            'first_page_url',
+            'links',
+            'next_page_url',
+            'path',
+            'per_page',
+            'prev_page_url',
+            'to',
+            'total',
+        ],
+    ];
+
+    /**
      * Test success getting companies
      */
     public function test_success_get_companies(): void
@@ -61,7 +95,7 @@ class CompaniesApiEndpointTest extends TestCase
 
         $response->assertSuccessful();
 
-        $response->assertJsonStructure($this->responseStructure);
+        $this->checkResponseStructure($response);
 
         $this->checkUsersThroughKeyEqualsCategoryId(
             json_decode($response->getContent(), true)
@@ -79,7 +113,7 @@ class CompaniesApiEndpointTest extends TestCase
 
         $response->assertSuccessful();
 
-        $response->assertJsonStructure($this->responseStructure);
+        $this->checkResponseStructure($response);
 
         $content = json_decode($response->getContent(), true);
 
@@ -266,12 +300,7 @@ class CompaniesApiEndpointTest extends TestCase
 
         $response->assertSuccessful();
 
-        $baseResponseStructure = $this->responseStructure;
-
-        unset($baseResponseStructure['companies']['data'][0]);
-
-        // first check base response structure without data
-        $response->assertJsonStructure($baseResponseStructure);
+        $this->checkResponseStructure($response);
 
         $content = json_decode($response->getContent(), true);
 
@@ -291,9 +320,6 @@ class CompaniesApiEndpointTest extends TestCase
             // if there are no results - check via request to database
             $this->assertFalse((new Company)->getSearchByFieldsBuilder($parameters)->exists());
         }else{
-            // check additional response structure
-            $response->assertJsonStructure($this->responseStructure);
-
             $this->checkCompanyFieldContains($companies, $parameters);
         }
     }
@@ -333,6 +359,24 @@ class CompaniesApiEndpointTest extends TestCase
         }
 
         return $queryString;
+    }
+
+    /**
+     * Check response structure with check if companies data exists
+     *
+     * @param TestResponse $response
+     * @return void
+     */
+    private function checkResponseStructure(TestResponse $response): void
+    {
+        // first check base response structure without data
+        $response->assertJsonStructure($this->baseResponseStructure);
+
+        $companies = json_decode($response->getContent(), true)['companies']['data'];
+
+        if(!empty($companies)){
+            $response->assertJsonStructure($this->responseStructure);
+        }
     }
 
 }
