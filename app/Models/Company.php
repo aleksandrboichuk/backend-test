@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Support\HigherOrderWhenProxy;
 
 class Company extends Model
 {
@@ -44,15 +45,26 @@ class Company extends Model
      */
     public function getAll(int $perPage = 10, array $searchFields = []): LengthAwarePaginator
     {
-        return $this->query()
+        return $this->getSearchByFieldsBuilder($searchFields)
             ->with('users')
+            ->paginate($perPage);
+    }
+
+    /**
+     * Returns query builder with query by search fields array
+     *
+     * @param array $searchFields
+     * @return Builder|HigherOrderWhenProxy
+     */
+    public function getSearchByFieldsBuilder(array $searchFields): Builder|HigherOrderWhenProxy
+    {
+        return $this->query()
             ->when(!empty($searchFields), function ($builder) use ($searchFields) {
                 $builder->where(function ($builder) use ($searchFields){
                     foreach ($searchFields as $field => $value) {
                         $builder->orWhere($field, 'like', "%$value%");
                     }
                 });
-
-            })->paginate($perPage);
+            });
     }
 }

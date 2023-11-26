@@ -11,10 +11,10 @@ class Response implements ResponseInterface
     /**
      * @inheritdoc
      */
-    public function success(array $data): JsonResponse
+    public function success(array $data, string $dataKey = 'data'): JsonResponse
     {
         return response()->json([
-            'data' => $data
+            $dataKey => $data
         ]);
     }
 

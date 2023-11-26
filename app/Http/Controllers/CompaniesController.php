@@ -25,10 +25,10 @@ class CompaniesController extends Controller
 
             $data = (new Company())->getAll(
                 (int)$request->get('perPage'),
-                    Arr::except($request->validated(), ['perPage'])
+                    Arr::except($request->validated(), ['perPage']) // removing unnecessary field from validated array
                 );
 
-            return $this->responseService->success($data->toArray());
+            return $this->responseService->success($data->toArray(), 'companies');
 
         }catch (\Exception $exception){
 

@@ -16,7 +16,7 @@ class StoreDataFromApi extends Command
      *
      * @var string
      */
-    protected $signature = 'api:store-data {entity} {--with-positions=false}';
+    protected $signature = 'api:store-data {entity} {--with-positions}';
 
     /**
      * The console command description.
@@ -59,7 +59,7 @@ class StoreDataFromApi extends Command
                     'address' => "Address",
                 ]);
 
-                if($this->option('with-positions') === 'true'){
+                if($this->option('with-positions')){
 
                     $this->info("\nImporting companies positions");
 
