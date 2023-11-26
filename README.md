@@ -10,12 +10,12 @@
 
 ### Розгортання проєкту:
 - Перейти у робочу директорію та виконати наступні команди в консолі:
-    + `git clone https://github.com/aleksandrboichuk/backend_test.git` (клонування проєкту у робочу директорію)
+    + `git clone https://github.com/aleksandrboichuk/backend_test.git` - клонування проєкту у робочу директорію
     + `cd backend_test`
-    + `cp .env.example .env && cd docker && cp docker-compose.example.yml docker-compose.yml`
-    + `docker-compose build && docker-compose up -d`
-    + `docker-compose exec php-fpm bash`
-    + `composer install`
+    + `cp .env.example .env && cd docker && cp docker-compose.example.yml docker-compose.yml` - копіювання конфігураційних файлів для docker-compose та laravel
+    + `docker-compose build && docker-compose up -d` - білд та підняття контейнерів
+    + `docker-compose exec php-fpm bash` - перехід у php-fpm контейнер для встановлення композеру (та виконання в майбутньому artisan команд)
+    + `composer install` - встановлення composer
 
 Проєкт має бути доступним за посиланням http://localhost:8080
     
