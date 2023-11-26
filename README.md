@@ -10,7 +10,7 @@
 
 ### Розгортання проєкту:
 - Перейти у робочу директорію та виконати наступні команди в консолі:
-    + `git clone https://github.com/aleksandrboichuk/backend_test.git` - клонування проєкту у робочу директорію
+    + `git clone https://github.com/aleksandrboichuk/backend-test.git` - клонування проєкту у робочу директорію
     + `cd backend-test`
     + `cp .env.example .env && cd docker && cp docker-compose.example.yml docker-compose.yml` - копіювання конфігураційних файлів для docker-compose та laravel
     + `docker-compose build && docker-compose up -d` - білд та підняття контейнерів
