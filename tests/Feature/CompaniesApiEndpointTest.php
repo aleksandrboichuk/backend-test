@@ -97,7 +97,7 @@ class CompaniesApiEndpointTest extends TestCase
 
         $this->checkResponseStructure($response);
 
-        $this->checkUsersThroughKeyEqualsCategoryId(
+        $this->checkUsersThroughKeyEqualsCompanyId(
             json_decode($response->getContent(), true)
         );
     }
@@ -119,7 +119,7 @@ class CompaniesApiEndpointTest extends TestCase
 
         $this->assertEquals($content['companies']['per_page'], $itemsPerPage);
 
-        $this->checkUsersThroughKeyEqualsCategoryId($content);
+        $this->checkUsersThroughKeyEqualsCompanyId($content);
     }
 
     /**
@@ -245,7 +245,7 @@ class CompaniesApiEndpointTest extends TestCase
      * @param array $content
      * @return void
      */
-    private function checkUsersThroughKeyEqualsCategoryId(array $content): void
+    private function checkUsersThroughKeyEqualsCompanyId(array $content): void
     {
         $companies = $content['companies']['data'];
 
@@ -325,7 +325,7 @@ class CompaniesApiEndpointTest extends TestCase
     }
 
     /**
-     * Checks category field contains with expected
+     * Checks Company field contains with expected
      *
      * @param array $companies
      * @param array $fields
